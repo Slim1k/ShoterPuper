@@ -6,8 +6,8 @@ public class CameraRotation : MonoBehaviour
 {
     public Transform CameraAxisTransform;
     public float RotationSpeed;
-    public float minAngle;
-    public float maxAngle;
+    public float MinAngle;
+    public float MaxAngle;
     void Update()
     {       
         var newAngleX = CameraAxisTransform.localEulerAngles.x + Time.deltaTime * RotationSpeed * Input.GetAxis("Mouse Y") * -1;
@@ -15,7 +15,7 @@ public class CameraRotation : MonoBehaviour
         {
             newAngleX = newAngleX - 360;
         }
-        newAngleX = Mathf.Clamp(newAngleX, minAngle, maxAngle);
+        newAngleX = Mathf.Clamp(newAngleX, MinAngle, MaxAngle);
 
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y + Time.deltaTime * RotationSpeed * Input.GetAxis("Mouse X"), 0);
         CameraAxisTransform.localEulerAngles = new Vector3(newAngleX, 0, 0);

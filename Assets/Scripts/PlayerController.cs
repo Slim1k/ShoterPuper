@@ -4,21 +4,44 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float gravity = 9.8f;
-    public float jumpForce;
-    public float speed;
+    public float Gravity = 9.8f;
+    public float JumpForce;
+    public float Speed;
 
     private float _fallVelocity = 0;
-    public Vector3 _moveVector;
+    private Vector3 _moveVector;
 
     private CharacterController _characterController;
 
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
+        InitComponentLinks();
     }
 
     private void Update()
+    {
+        MoveUpdate();
+    }
+
+    void FixedUpdate()
+    {
+        MoveFixedUpdate();
+    }
+
+    private void MoveFixedUpdate()
+    {
+        _characterController.Move(_moveVector * Time.fixedDeltaTime * Speed);
+
+        _fallVelocity += Gravity * Time.fixedDeltaTime;
+        _characterController.Move(Vector3.down * Time.fixedDeltaTime * _fallVelocity);
+
+        if (_characterController.isGrounded)
+        {
+            _fallVelocity = 0;
+        }
+    }
+
+    private void MoveUpdate()
     {
         _moveVector = Vector3.zero;
 
@@ -38,23 +61,14 @@ public class PlayerController : MonoBehaviour
         {
             _moveVector -= transform.forward;
         }
-
         if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
         {
-            _fallVelocity = -jumpForce;
+            _fallVelocity = -JumpForce;
         }
     }
 
-    void FixedUpdate()
+    private void InitComponentLinks()
     {
-        _characterController.Move(_moveVector * Time.fixedDeltaTime * speed);
-
-        _fallVelocity += gravity * Time.fixedDeltaTime;
-        _characterController.Move(Vector3.down * Time.fixedDeltaTime * _fallVelocity);
-
-        if (_characterController.isGrounded)
-        {
-            _fallVelocity = 0;
-        }
+        _characterController = GetComponent<CharacterController>();
     }
 }
