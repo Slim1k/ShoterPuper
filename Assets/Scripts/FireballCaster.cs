@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class FireballCaster : MonoBehaviour
 {
-    public Fireball fireballPrefab;
-    public Transform fireballSourceTransform;
+    public Fireball FireballPrefab;
+    public Transform FireballSourceTransform;
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(fireballPrefab, fireballSourceTransform.position, fireballSourceTransform.rotation);
+            Instantiate(FireballPrefab, FireballSourceTransform.position, FireballSourceTransform.rotation);
         }
     }
 }

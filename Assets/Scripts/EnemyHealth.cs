@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float value = 100;
+    public float Value = 100;
 
     public void DestroyEnamy()
     {
@@ -13,8 +13,8 @@ public class EnemyHealth : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        value -= damage;
-        if (value <= 0)
+        Value -= damage;
+        if (Value <= 0)
         {
             DestroyEnamy();
         }
