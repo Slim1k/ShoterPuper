@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float JumpForce;
     public float Speed;
 
+    public Animator AnimatorPlayer;
+
     private float _fallVelocity = 0;
     private Vector3 _moveVector;
 
@@ -45,26 +47,34 @@ public class PlayerController : MonoBehaviour
     {
         _moveVector = Vector3.zero;
 
+        var runDirection = 0;
+
         if (Input.GetKey(KeyCode.W))
         {
             _moveVector += transform.forward;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            _moveVector += transform.right;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            _moveVector -= transform.right;
+            runDirection = 1;
         }
         if (Input.GetKey(KeyCode.S))
         {
             _moveVector -= transform.forward;
+            runDirection = 2;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            _moveVector += transform.right;
+            runDirection = 3;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            _moveVector -= transform.right;
+            runDirection = 4;
         }
         if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
         {
             _fallVelocity = -JumpForce;
         }
+
+        AnimatorPlayer.SetInteger("run direction", runDirection);
     }
 
     private void InitComponentLinks()
