@@ -16,6 +16,20 @@ public class EnemyAI : MonoBehaviour
     private PlayerHealth _playerHealth;
     private NavMeshAgent _navMeshAgent;
     private bool _isPlayerNoticed;
+    private EnemyHealth _enemyHealth;
+
+    public bool IsAlive()
+    {
+        return _enemyHealth.IsAlive();
+    }
+    public void DestroyEnamyFull()
+    {
+        _enemyHealth.DestroyEnamyFull();
+    }
+    public void DestroyEnamyFull(float delayEnamiesTime)
+    {
+        _enemyHealth.DestroyEnamyFull(delayEnamiesTime);
+    }
 
     private void Start()
     {
@@ -62,6 +76,7 @@ public class EnemyAI : MonoBehaviour
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _playerHealth = Player.GetComponent<PlayerHealth>();
+        _enemyHealth = GetComponent<EnemyHealth>();
     }
 
     private void NoticePlayerUpdate()

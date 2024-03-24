@@ -6,13 +6,35 @@ using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public PlayerProgress PlayerProgress_;
     public float Value = 100;
     public Animator AnimatorEnamy;
+    public float DelayEnamiesTime = 10;
+
+    private void Start()
+    {
+        PlayerProgress_ = FindObjectOfType<PlayerProgress>();
+    }
+
+    public bool IsAlive()
+    {
+        return Value > 0;
+    }
 
     public void DestroyEnamy()
     {
         EnamyDeath();
-        //Destroy(gameObject);
+    }
+
+    public void DestroyEnamyFull()
+    {
+        EnamyDeath();
+        Invoke("Destroy", DelayEnamiesTime);
+    }
+    public void DestroyEnamyFull(float delayEnamiesTime)
+    {
+        EnamyDeath();
+        Invoke("Destroy", delayEnamiesTime);
     }
 
     private void EnamyDeath()
@@ -22,15 +44,25 @@ public class EnemyHealth : MonoBehaviour
         GetComponent<EnemyAI>().enabled = false;
         GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<CapsuleCollider>().enabled = false;
+
+        var explosion = GetComponent<ExplosionEnamy>();
+        explosion.ExplosionEn();
     }
 
     public void DealDamage(float damage)
     {
         Value -= damage;
         AnimatorEnamy.SetTrigger("hit");
+
+        PlayerProgress_.AddExperience(damage);
+
         if (Value <= 0)
         {
             DestroyEnamy();
         }
+    }
+    private void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
